@@ -116,7 +116,7 @@ public class TicTacToeModel {
         /* Return TRUE if the specified location is within the bounds of the board */
         
         // INSERT YOUR CODE HERE
-        if( (row>=0 && row<width) || (col>=0 && col<width) ) 
+        if( (row>=0 && row<width) && (col>=0 && col<width) ) 
             return true;
         else 
             return false;
@@ -127,15 +127,17 @@ public class TicTacToeModel {
         /* Return TRUE if the square at specified location is marked */
         
         String mark = board[row][col].toString();
+        boolean x = false;
         switch(mark) {
             case "X": case "O":
-                return true;
+                x = true;
                 break;
             case "-":
-                return false;
+                x = false;
                 break;
 
         }
+        return x;
             
     }
 	
@@ -173,7 +175,7 @@ public class TicTacToeModel {
            winner */
         
         // INSERT YOUR CODE HERE
-        int count = size -1;
+        int count = width -1;
         int xCountRow = 0;
         int xCountCol = 0;
         int oCountRow = 0;
@@ -182,10 +184,10 @@ public class TicTacToeModel {
         int xCountDiagonal2 = 0;
         int oCountDiagonal1 = 0;
         int oCountDiagonal2 = 0;
-        String winner = "";
+        boolean winner = false;
         
-        for(int i = 0; i < size; ++i) {
-            for(int j = 0; j < size; ++j) {
+        for(int i = 0; i < width; ++i) {
+            for(int j = 0; j < width; ++j) {
                 if( ((board[i][j]).toString()).equals("X")) {
                     ++xCountRow;
                 }
@@ -214,30 +216,30 @@ public class TicTacToeModel {
             }
 
             if(xCountRow == width) {
-                winner = "X";
+                winner = true;
             }
             else if(oCountRow == width) {
-                winner = "O";
+                winner = true;
             }
             
             if(xCountCol == width) {
-                winner = "X";
+                winner = true;
             }
             else if(oCountCol == width) {
-                winner = "O";
+                 winner = true;
             }
             
             if(xCountDiagonal1 == width) {
-                winner = "X";
+                 winner = true;
             }
             else if(oCountDiagonal1 == width) {
-                winner = "O";
+                 winner = true;
             }
             if(xCountDiagonal2 == width) {
-                winner = "X";
+                 winner = true;
             }
             else if(oCountDiagonal2 == width) {
-                winner = "O";
+                 winner = true;
             }
             
             xCountRow = 0;
@@ -268,7 +270,7 @@ public class TicTacToeModel {
             }
         }
         
-        if(count == (width * width) && isMarkWin() != Mark.X && isMarkWin() != Mark.O) {
+        if(count == (width * width) && isMarkWin(Mark.X) == false && isMarkWin(Mark.O)  == false) {
             tie = true;
         }
         return tie;
@@ -310,9 +312,14 @@ public class TicTacToeModel {
         } 
         output.append("\n\n");
         for(int i = 0; i < width; i++) {
+            output.append(i).append(" ");
             for(int j = 0; j < width; j++) {
-                output.append(i).append(" ").append(board[i][j]).append("\n");
+                Mark x = board[i][j];
+                String a = x.toString();
+                output.append(a);
             }
+            if(i < width-1)
+                output.append("\n");
         }       
         
         return output.toString();
@@ -320,3 +327,5 @@ public class TicTacToeModel {
     }
     
 }
+
+
