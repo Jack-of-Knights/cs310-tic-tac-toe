@@ -75,7 +75,11 @@ public class TicTacToeModel {
 
         /* Initialize board by filling every square with empty marks */
         
-        // INSERT YOUR CODE HERE
+        for(int i = 0; i < width; i++) {
+            for(int j = 0; j < width; j++) {
+                board[i][j] = Mark.EMPTY;
+            }
+        }
         
     }
 	
@@ -88,8 +92,22 @@ public class TicTacToeModel {
            other player before returning TRUE.  Otherwise, return FALSE. */
         
         // INSERT YOUR CODE HERE
-        
-        return false; // remove this line later!
+        boolean marked = false;
+        if(isValidSquare(row, col) == true && isSquareMarked(row, col) == false) {
+            if(xTurn == true) {
+                board[row][col] = Mark.X;
+                xTurn = false;
+                marked = true;
+                
+            }
+            else {
+                board[row][col] = Mark.O;
+                xTurn = true;
+                marked = true;
+            }
+        }
+        return marked;
+
         
     }
 	
@@ -98,18 +116,26 @@ public class TicTacToeModel {
         /* Return TRUE if the specified location is within the bounds of the board */
         
         // INSERT YOUR CODE HERE
-
-        return false; // remove this line later!
-        
+        if( (row>=0 && row<width) || (col>=0 && col<width) ) 
+            return true;
+        else 
+            return false;
     }
 	
     private boolean isSquareMarked(int row, int col) {
         
         /* Return TRUE if the square at specified location is marked */
         
-        // INSERT YOUR CODE HERE
+        String mark = board[row][col].toString();
+        switch(mark) {
+            case "X": case "O":
+                return true;
+                break;
+            case "-":
+                return false;
+                break;
 
-        return false; // remove this line later!
+        }
             
     }
 	
@@ -118,8 +144,8 @@ public class TicTacToeModel {
         /* Return the mark from the square at the specified location */
         
         // INSERT YOUR CODE HERE
+        return board[row][col];
 
-        return null; // remove this line later!
             
     }
 	
@@ -130,9 +156,15 @@ public class TicTacToeModel {
            value */
         
         // INSERT YOUR CODE HERE
+        if(isMarkWin(Mark.X)) 
+            return Result.X;
+        else if(isMarkWin(Mark.O))
+            return Result.O;
+        else if(isTie()) 
+            return Result.TIE;
+        else
+            return Result.NONE;
 
-        return null; // remove this line later!
-        
     }
 	
     private boolean isMarkWin(Mark mark) {
@@ -141,8 +173,81 @@ public class TicTacToeModel {
            winner */
         
         // INSERT YOUR CODE HERE
+        int count = size -1;
+        int xCountRow = 0;
+        int xCountCol = 0;
+        int oCountRow = 0;
+        int oCountCol = 0;
+        int xCountDiagonal1 = 0;
+        int xCountDiagonal2 = 0;
+        int oCountDiagonal1 = 0;
+        int oCountDiagonal2 = 0;
+        String winner = "";
+        
+        for(int i = 0; i < size; ++i) {
+            for(int j = 0; j < size; ++j) {
+                if( ((board[i][j]).toString()).equals("X")) {
+                    ++xCountRow;
+                }
+                else if( ((board[i][j]).toString()).equals("O")) {
+                    ++oCountRow;
+                }
+                if( ((board[j][i]).toString()).equals("X")) {
+                    ++xCountCol; 
+                }
+                else if ( ((board[j][i]).toString()).equals("O")){
+                    ++oCountCol;
+                }
+            }
+            
+            if( ((board[i][i]).toString()).equals("X")) {
+                ++xCountDiagonal1;
+            }
+            else if( ((board[i][i]).toString()).equals("O")) {
+                ++oCountDiagonal1;
+            }
+            if( ((board[i][count]).toString()).equals("X")) {
+                ++xCountDiagonal2;
+            }
+            else if( ((board[i][count]).toString()).equals("O")) {
+                ++oCountDiagonal2;
+            }
 
-        return false; // remove this line later!
+            if(xCountRow == width) {
+                winner = "X";
+            }
+            else if(oCountRow == width) {
+                winner = "O";
+            }
+            
+            if(xCountCol == width) {
+                winner = "X";
+            }
+            else if(oCountCol == width) {
+                winner = "O";
+            }
+            
+            if(xCountDiagonal1 == width) {
+                winner = "X";
+            }
+            else if(oCountDiagonal1 == width) {
+                winner = "O";
+            }
+            if(xCountDiagonal2 == width) {
+                winner = "X";
+            }
+            else if(oCountDiagonal2 == width) {
+                winner = "O";
+            }
+            
+            xCountRow = 0;
+            xCountCol = 0;
+            oCountRow = 0;
+            oCountCol = 0;
+            count -= 1;
+            
+        }
+        return winner;
 
     }
 	
@@ -152,7 +257,21 @@ public class TicTacToeModel {
         
         // INSERT YOUR CODE HERE
 
-        return false; // remove this line later!
+        boolean tie = false;
+        int count = 0;
+        
+        for(int row = 0; row < width; ++row) {
+            for(int col = 0; col < width; ++col) {
+                if(board[row][col].toString().equals("X") || board[row][col].toString().equals("O")) {
+                    count += 1;
+                }
+            }
+        }
+        
+        if(count == (width * width) && isMarkWin() != Mark.X && isMarkWin() != Mark.O) {
+            tie = true;
+        }
+        return tie;
         
     }
 
@@ -186,8 +305,15 @@ public class TicTacToeModel {
         StringBuilder output = new StringBuilder("  ");
         
         /* Output the board contents as a string (see examples) */
-        
-        // INSERT YOUR CODE HERE
+        for(int i = 0; i < width; i++) {
+            output.append(i);
+        } 
+        output.append("\n\n");
+        for(int i = 0; i < width; i++) {
+            for(int j = 0; j < width; j++) {
+                output.append(i).append(" ").append(board[i][j]).append("\n");
+            }
+        }       
         
         return output.toString();
         

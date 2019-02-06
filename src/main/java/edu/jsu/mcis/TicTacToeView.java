@@ -22,8 +22,11 @@ public class TicTacToeView {
            Return as a TicTacToeMove object. */
         
         // INSERT YOUR CODE HERE
+        System.out.print("Enter the row and column numbers, separated by space: ");
+        int row = keyboard.nextInt();
+        int col = keyboard.nextInt();
 
-        return null; // remove this line later!
+        return TicTacToeMove(row, col);
 
     }
 
