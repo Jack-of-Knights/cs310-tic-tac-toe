@@ -175,77 +175,30 @@ public class TicTacToeModel {
            winner */
         
         // INSERT YOUR CODE HERE
-        int count = width -1;
-        int xCountRow = 0;
-        int xCountCol = 0;
-        int oCountRow = 0;
-        int oCountCol = 0;
-        int xCountDiagonal1 = 0;
-        int xCountDiagonal2 = 0;
-        int oCountDiagonal1 = 0;
-        int oCountDiagonal2 = 0;
+        int count = width - 1;
+        int markCountRow = 0;
+        int markCountCol = 0;
+        int markCountDiagonal1 = 0;
+        int markCountDiagonal2 = 0;
         boolean winner = false;
         
         for(int i = 0; i < width; ++i) {
             for(int j = 0; j < width; ++j) {
-                if( ((board[i][j]).toString()).equals("X")) {
-                    ++xCountRow;
-                }
-                else if( ((board[i][j]).toString()).equals("O")) {
-                    ++oCountRow;
-                }
-                if( ((board[j][i]).toString()).equals("X")) {
-                    ++xCountCol; 
-                }
-                else if ( ((board[j][i]).toString()).equals("O")){
-                    ++oCountCol;
-                }
+               if(board[i][j] == mark)
+                   markCountRow++;
+               if(board[j][i] == mark)
+                   markCountCol++;
             }
+            if(board[i][i] == mark)
+                markCountDiagonal1++;
+            if(board[i][count] == mark)
+                markCountDiagonal2++;
             
-            if( ((board[i][i]).toString()).equals("X")) {
-                ++xCountDiagonal1;
-            }
-            else if( ((board[i][i]).toString()).equals("O")) {
-                ++oCountDiagonal1;
-            }
-            if( ((board[i][count]).toString()).equals("X")) {
-                ++xCountDiagonal2;
-            }
-            else if( ((board[i][count]).toString()).equals("O")) {
-                ++oCountDiagonal2;
-            }
-
-            if(xCountRow == width) {
+            if(markCountRow == width || markCountCol == width || markCountDiagonal1 == width || markCountDiagonal2 == width)
                 winner = true;
-            }
-            else if(oCountRow == width) {
-                winner = true;
-            }
             
-            if(xCountCol == width) {
-                winner = true;
-            }
-            else if(oCountCol == width) {
-                 winner = true;
-            }
-            
-            if(xCountDiagonal1 == width) {
-                 winner = true;
-            }
-            else if(oCountDiagonal1 == width) {
-                 winner = true;
-            }
-            if(xCountDiagonal2 == width) {
-                 winner = true;
-            }
-            else if(oCountDiagonal2 == width) {
-                 winner = true;
-            }
-            
-            xCountRow = 0;
-            xCountCol = 0;
-            oCountRow = 0;
-            oCountCol = 0;
+            markCountRow = 0;
+            markCountCol = 0;
             count -= 1;
             
         }
